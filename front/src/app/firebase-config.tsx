@@ -37,3 +37,8 @@ export const setFirestoreUser = async (userId: any, userData: any) => {
     const userRef = doc(db, "users", userId);
     return await setDoc(userRef, userData);
   };
+
+export const setFirestoreDoc = async (collection: string, docId: string, docData: any) => {
+    const docRef = doc(db, collection, docId);
+    return await setDoc(docRef, docData);
+  }
