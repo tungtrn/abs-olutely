@@ -22,7 +22,11 @@
     "react-scripts": "5.0.1",
     "redux-persist": "^6.0.0",
     "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "prop-types": "15.8.1",
+    "next": "13.1.6",
+    "@heroicons/react": "2.0.16",
+    "simplebar-react": "^3.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
