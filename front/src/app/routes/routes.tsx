@@ -1,7 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
+import Base from "../pages/BasePage/Base";
 import Home from "../pages/HomePage/Home";
 import Login from "../pages/LoginPage/Login";
 import Pantry from "../pages/PantryPage/Pantry";
+import Recipe from "../pages/RecipePage/Recipe";
+import RecipeResult from "../pages/RecipePage/RecipeResult";
 import PrivateRoute from "./PrivateRoute";
 
 
@@ -15,8 +18,22 @@ const router = createBrowserRouter([
         element: <Login />
     },
     {
-        path: "/pantry",
-        element: <PrivateRoute> <Pantry /> </PrivateRoute>
+        path: "/home",
+        element: <PrivateRoute> <Base /> </PrivateRoute>,
+        children: [
+            {
+                path: "pantry",
+                element: <Pantry />
+            },
+            {
+                path: "recipe",
+                element: <Recipe /> 
+            },
+            {
+                path: "recipe-result",
+                element: <RecipeResult />
+            }
+        ]
     }
 ]);
 
