@@ -22,7 +22,7 @@ function Recipe() {
 	const [answer, setAnswer] = useState<RecipeQuestionAnswer[]>([]);
 
     const [errorMsg, setErrorMsg] = useState("");
-
+	
 	const handleClickNext = () => {
         if (answer[questionNum] === undefined || answer[questionNum].answer === "") {
             setErrorMsg("Please answer the question");

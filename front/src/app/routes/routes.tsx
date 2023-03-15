@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Base from "../pages/BasePage/Base";
+import DashBoard from "../pages/DashboardPage/Dashboard";
 import Home from "../pages/HomePage/Home";
 import Login from "../pages/LoginPage/Login";
 import Pantry from "../pages/PantryPage/Pantry";
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
         path: "/home",
         element: <PrivateRoute> <Base /> </PrivateRoute>,
         children: [
+            {
+                path: "dashboard",
+                element: <DashBoard />
+            },
             {
                 path: "pantry",
                 element: <Pantry />

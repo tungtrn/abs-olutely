@@ -102,3 +102,9 @@ export type RecipeQuestionAnswer = {
     question: string;
     answer: string | number;
 }
+
+export type RecipeInformation = {
+    step: string[];
+    ingredients: string[];
+    shoppingList: string[];
+}

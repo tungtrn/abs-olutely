@@ -1,4 +1,3 @@
-import { Favorite, LocationOn } from "@mui/icons-material";
 import {
 	Box,
 	Card,
@@ -6,9 +5,9 @@ import {
 	CardMedia,
 	Divider,
 	Grid,
-	IconButton,
 	Typography,
 } from "@mui/material";
+
 import theme from "../../theme/theme";
 import { Recipe, Steps } from "./Question";
 
@@ -25,7 +24,9 @@ const styles = {
 	},
 };
 
-function RecipeCard() {
+export function RecipeCard() {
+	const image = require("./example_img.png");
+
 	return (
 		<Card
 			elevation={0}
@@ -37,9 +38,7 @@ function RecipeCard() {
 				component="img"
 				height={300}
 				width={320}
-				image={
-					"https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80"
-				}
+				image={image}
 				sx={{ objectFit: "contain", borderRadius: "20px", marginTop: "10%" }}
 			/>
 			<CardContent
@@ -167,12 +166,12 @@ function RecipeCard() {
 	);
 }
 
-function RecipeSteps() {
+export function RecipeSteps() {
 	return (
 		<Box
 			sx={{
 				display: "flex",
-				height: "100%",
+				height: "90%",
 				weight: "100%",
 				justifyContent: "flex-start",
 				marginLeft: "10%",
@@ -180,23 +179,82 @@ function RecipeSteps() {
 				marginTop: "7%",
 				borderRadius: "20px",
 				// backgroundColor: theme.palette.primary.main,
-				backgroundColor: theme.palette.error.main,
+				backgroundColor: theme.palette.secondary.main,
 				flexDirection: "column",
 				paddingTop: "2rem",
 			}}
 		>
-			<Typography variant="h2" sx={{ textAlign: "center" }}>
+			<Typography variant="h2" sx={{ textAlign: "center", color: "black" }}>
 				How to cook
 			</Typography>
 			{Steps.map((item, index) => {
 				return (
-                    <Box>
-					<Typography variant="h4" sx={{ marginTop: "1rem", alignItem: "flex-start", paddingLeft: "4rem", paddingRight: "2rem" }}>
-						{index + 1}. {item}
-					</Typography>
-                    </Box>
+					<Box>
+						<Typography
+							variant="h4"
+							sx={{
+								marginTop: "1rem",
+								alignItem: "flex-start",
+								paddingLeft: "4rem",
+								paddingRight: "2rem",
+								color: "black",
+							}}
+						>
+							{index + 1}. {item}
+						</Typography>
+					</Box>
 				);
 			})}
+			<Divider
+				sx={{
+					width: "100%",
+					marginTop: "1.5rem",
+					borderRightWidth: "thick",
+					borderBottomWidth: "4px",
+					borderRadius: "20px",
+					backgroundColor: theme.palette.primary.main,
+				}}
+			/>
+			<Typography
+				variant="h2"
+				sx={{ textAlign: "center", color: "black", marginTop: "2rem" }}
+			>
+				What to buy?
+			</Typography>
+			<Box
+				sx={{
+					width: "50%",
+					justifyContent: "center",
+					marginLeft: "auto",
+					marginRight: "auto",
+				}}
+			>
+				{Recipe.map((item) => {
+					return (
+						// Display name of the ingredient and the amount on same line
+						<Box sx={{ marginTop: "1rem" }}>
+							<Box sx={{ display: "flex", flexDirection: "row" }}>
+								<Box sx={{ width: "50%" }}>
+									<Typography variant="h4" sx={{ color: "black" }}>
+										{item.name}
+									</Typography>
+								</Box>
+								<Box
+									sx={{
+										width: "50%",
+										justifyContent: "flex-end",
+										display: "flex",
+									}}
+								>
+									<Typography variant="h5" sx={{ color: "black" }}>
+										{item.amount}
+									</Typography>
+								</Box>
+							</Box>
+						</Box>
+					);
+				})}
+			</Box>
 		</Box>
 	);
 }
