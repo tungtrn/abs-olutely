@@ -12,7 +12,7 @@ export const SpendProgress = (props) => {
   const { value, sx } = props;
 
   return (
-    <Card sx={sx} style={{backgroundColor: "#65A591"}}>
+    <Card sx={sx} style={{backgroundColor: "#A4DACA"}}>
       <CardContent>
         <Stack
           alignItems="flex-start"

@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 export const Calendar = (props) => {
   const { sx } = props;
   return (
-    <Card sx={sx} style={{backgroundColor: "#D9B1C0"}}>
+    <Card sx={sx} style={{backgroundColor: "#68A592"}}>
         <CardHeader title="Calendar" />
         <CardContent>
             <LocalizationProvider dateAdapter={AdapterDayjs}>

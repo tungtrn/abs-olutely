@@ -71,7 +71,7 @@ export const ComponentDistribution = (props) => {
   const chartOptions = useChartOptions(labels);
 
   return (
-    <Card sx={sx} style={{backgroundColor: "#F8CA82"}}>
+    <Card sx={sx} style={{backgroundColor: "#F3E09C"}}>
       <CardHeader title="Components Distribution" />
       <CardContent>
         <Chart
