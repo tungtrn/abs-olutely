@@ -102,7 +102,7 @@ export const MonthlyCal = (props) => {
   const chartOptions = useChartOptions();
 
   return (
-    <Card sx={sx} style={{backgroundColor: "#D9B1C0"}}>
+    <Card sx={sx} style={{backgroundColor: "#A4DACA"}}>
       <CardHeader
         action={(
           <Button

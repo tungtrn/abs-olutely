@@ -8,6 +8,7 @@ import { CalsProgress } from './Cards/cal-goal-tracking';
 import { DailySpend } from './Cards/daily-spend';
 import { SpendProgress } from './Cards/spend-goal-tracking';
 import { ComponentDistribution } from './Cards/component-dist';
+import { Calendar } from './Cards/calendar';
 
 const now = new Date();
 
@@ -98,6 +99,13 @@ const Page = () => (
               labels={['Micro', 'Macro', 'Carb', 'Protein']}
               sx={{ height: '100%' }}
             />
+          </Grid>
+          <Grid
+            xs={12}
+            md={6}
+            lg={4}
+          >
+            <Calendar/>
           </Grid>
           <Grid
             xs={12}
