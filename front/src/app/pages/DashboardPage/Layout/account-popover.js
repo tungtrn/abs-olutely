@@ -3,7 +3,10 @@ import { useRouter } from 'next/navigation';
 import PropTypes from 'prop-types';
 import { Box, Divider, MenuItem, MenuList, Popover, Typography } from '@mui/material';
 
-import { useAuth } from '../use-auth'; // for authorization idk
+import { useContext } from 'react';
+import { AuthContext } from './auth-context';
+
+const useAuth = () => useContext(AuthContext);
 
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open } = props;
@@ -18,6 +21,7 @@ export const AccountPopover = (props) => {
     },
     [onClose, auth, router]
   );
+
 
   return (
     <Popover

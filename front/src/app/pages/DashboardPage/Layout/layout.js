@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { AuthGuard } from './auth-guard';
-import { SideNav } from './side-nav-item';
+import { SideNav } from './side-nav';
 import { TopNav } from './top-nav';
 import { usePathname } from 'next/navigation';
 
@@ -29,7 +29,7 @@ const LayoutContainer = styled('div')({
   width: '100%'
 });
 
-export const Layout = withAuthGuard((props: any) => {
+export const Layout = withAuthGuard((props) => {
   const { children } = props;
   const pathname = usePathname();
   const [openNav, setOpenNav] = useState(true);

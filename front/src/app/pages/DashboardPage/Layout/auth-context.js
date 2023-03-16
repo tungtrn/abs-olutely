@@ -14,13 +14,12 @@ const initialState = {
 };
 
 const handlers = {
-  [HANDLERS.INITIALIZE]: (state: any, action: any) => {
+  [HANDLERS.INITIALIZE]: (state, action) => {
     const user = action.payload;
 
     return {
       ...state,
       ...(
-        // if payload (user) is provided, then is authenticated
         user
           ? ({
             isAuthenticated: true,
@@ -33,7 +32,7 @@ const handlers = {
       )
     };
   },
-  [HANDLERS.SIGN_IN]: (state: any, action: any) => {
+  [HANDLERS.SIGN_IN]: (state, action) => {
     const user = action.payload;
 
     return {
@@ -42,7 +41,7 @@ const handlers = {
       user
     };
   },
-  [HANDLERS.SIGN_OUT]: (state: any) => {
+  [HANDLERS.SIGN_OUT]: (state) => {
     return {
       ...state,
       isAuthenticated: false,
@@ -51,21 +50,18 @@ const handlers = {
   }
 };
 
-const reducer = (state: any, action: any) => (
+const reducer = (state, action) => (
   handlers[action.type] ? handlers[action.type](state, action) : state
 );
 
-// The role of this context is to propagate authentication state through the App tree.
-
 export const AuthContext = createContext({ undefined });
 
-export const AuthProvider = (props: any) => {
+export const AuthProvider = (props) => {
   const { children } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
   const initialized = useRef(false);
 
   const initialize = async () => {
-    // Prevent from calling twice in development mode with React.StrictMode enabled
     if (initialized.current) {
       return;
     }
@@ -82,9 +78,9 @@ export const AuthProvider = (props: any) => {
 
     if (isAuthenticated) {
       const user = {
-        id: '1',
+        id: 'abcd',
         avatar: '/front/public/avatar.png',
-        name: 'Linh VjpPro',
+        name: 'Linh Nguyen',
         email: 'npl02042000@gmail.com'
       };
 
@@ -114,9 +110,9 @@ export const AuthProvider = (props: any) => {
     }
 
     const user = {
-        id: '1',
+        id: 'abcd',
         avatar: '/front/public/avatar.png',
-        name: 'Linh VjpPro',
+        name: 'Linh Nguyen',
         email: 'npl02042000@gmail.com'
     };
 
@@ -126,9 +122,9 @@ export const AuthProvider = (props: any) => {
     });
   };
 
-  const signIn = async (email: string, password: string) => {
-    if (email !== 'npl02042000@gmail.com' || password !== 'password') {
-      throw new Error('Check email and password');
+  const signIn = async (email, password) => {
+    if (email !== 'npl02042000@gmail.com' || password !== 'abcd') {
+      throw new Error('Please check your email and password');
     }
 
     try {
@@ -138,9 +134,9 @@ export const AuthProvider = (props: any) => {
     }
 
     const user = {
-        id: '1',
+        id: 'abcd',
         avatar: '/front/public/avatar.png',
-        name: 'Linh VjpPro',
+        name: 'Linh Nguyen',
         email: 'npl02042000@gmail.com'
     };
 
@@ -150,8 +146,8 @@ export const AuthProvider = (props: any) => {
     });
   };
 
-  const signUp = async (email: string, name: string, password: string) => {
-    throw new Error('Sign up');
+  const signUp = async (email, name, password) => {
+    throw new Error('Sign up is not implemented');
   };
 
   const signOut = () => {

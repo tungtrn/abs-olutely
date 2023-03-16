@@ -1,10 +1,8 @@
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import PropTypes from 'prop-types';
-import ArrowTopRightOnSquareIcon from '@heroicons/react/24/solid/ArrowTopRightOnSquareIcon';
 import ChevronUpDownIcon from '@heroicons/react/24/solid/ChevronUpDownIcon';
 import {Box,
-  Button,
   Divider,
   Drawer,
   Stack,
@@ -19,7 +17,7 @@ import { styled } from '@mui/material/styles';
 
 const Scrollbar = styled(SimpleBar)``;
 
-export const SideNav = (props: any) => {
+export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
