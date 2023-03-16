@@ -3,18 +3,10 @@ import os
 load_dotenv()
 
 class ConfigApp(object):
-    # Database Config
-    db_name = os.getenv("DATABASE_NAME")
-    db_user = os.getenv("DATABASE_USER")
-    db_password = os.getenv("DATABASE_PASSWORD")
-    db_host = os.getenv("DATABASE_HOST")
-    connection = f"mysql://{db_user}:{db_password}@{db_host}/{db_name}"
+    fb_cred_name = os.getenv("FIREBASE_CRED")
 
     # Application Config
     app_secret = os.getenv("APP_SECRET")
-    api_key = os.getenv("API_KEY")
-    api_secret = os.getenv("API_SECRET")
-    upload_folder = "/".join((os.getcwd(), "src/static"))
 
 
 class Config:
