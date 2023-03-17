@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '@mui/material/Button'
-import { auth, setFirestoreUser } from '../../firebase-config'
+import { auth, setFirestoreDoc, setFirestoreUser } from '../../firebase-config'
 
 import {
   signInWithPopup,
@@ -29,13 +29,15 @@ function Login() {
       .then(async (result) => {
         const user = result.user
         const isNewUser = getAdditionalUserInfo(result)
+        console.log(isNewUser);
+
         if (isNewUser) {
           const userData = {
             uid: user.uid,
             userName: user.displayName,
             profilePic: user.photoURL,
           }
-          await setFirestoreUser(user.uid, userData)
+          // await setFirestoreUser(user.uid, userData)
         } else {
           console.log('User already exists')
         }

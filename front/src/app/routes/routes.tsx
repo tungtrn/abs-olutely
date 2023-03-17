@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/HomePage/Home";
 import Login from "../pages/LoginPage/Login";
+import Pantry from "../pages/PantryPage/Pantry";
 import PrivateRoute from "./PrivateRoute";
 
 
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login />
+    },
+    {
+        path: "/pantry",
+        element: <PrivateRoute> <Pantry /> </PrivateRoute>
     }
 ]);
 

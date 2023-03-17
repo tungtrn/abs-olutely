@@ -16,7 +16,7 @@ import {
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyA3AIhhvXtmzgu3rfbiMQIa5fItT7_n2R8",
+  apiKey: "AIzaSyAe3AIhhvXtmzgu3rfbiMQIa5fItT7_n2R8",
   authDomain: "abs-olutely.firebaseapp.com",
   projectId: "abs-olutely",
   storageBucket: "abs-olutely.appspot.com",
@@ -41,4 +41,4 @@ export const setFirestoreUser = async (userId: any, userData: any) => {
 export const setFirestoreDoc = async (collection: string, docId: string, docData: any) => {
     const docRef = doc(db, collection, docId);
     return await setDoc(docRef, docData);
-  }
+  };
