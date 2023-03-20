@@ -35,6 +35,7 @@ const Page = () => {
 	const [open, setOpen] = useState(false);
 	const [fullWidth, setFullWidth] = useState(true);
 	const [maxWidth, setMaxWidth] = useState<DialogProps["maxWidth"]>("lg");
+	const [emptyData, setEmptyData] = useState(false);
 
 	const todayDay = dayjs();
 	const [date, setDate] = useState<Dayjs | null>(todayDay);
@@ -54,7 +55,7 @@ const Page = () => {
 		dinner: baseMeal,
 	});
 
-	const [searchedMeal, setSearchedMeal] = useState<DayRecipeProps>({
+	const [searchedMeal, setSearchedMeal] = useState<DayRecipeProps | null>({
 		breakfast: baseMeal,
 		brunch: baseMeal,
 		lunch: baseMeal,
@@ -95,9 +96,18 @@ const Page = () => {
 		console.log(response);
 
 		if (response.status_code === 200) {
-			setSearchedMeal(response.data[0].dish);
-			console.log(response);
+			console.log(response.data.length);	
+			if (response.data.length == 0) {
+				setSearchedMeal(null);
+				setEmptyData(true);
+				console.log(emptyData);
+			} else {
+				setSearchedMeal(response.data[0].dish);
+				setEmptyData(false);
+			}
 		}
+
+		console.log(emptyData)
 	};
 
 	const recipeDialog = (
@@ -145,6 +155,7 @@ const Page = () => {
 										marginTop: "1rem",
 									}}
 									fullWidth
+									disabled={emptyData}
 									onClick={() => setSelectedMeal(meal)}
 									endIcon={<ChevronRight style={{ marginLeft: "2rem" }} />}
 								>
