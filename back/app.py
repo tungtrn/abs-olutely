@@ -58,12 +58,8 @@ def create_dishes(questions, answers, ingredients):
             print("Reach here")
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
-                messages=[
-                    # {"role": "system", "content": "You are a helpful assistant."},
-                    {"role": "system", "content": message},
-                    # {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
-                    # {"role": "user", "content": "Where was it played?"}
-                ]
+                prompt=message,	
+		timeout=5
             )
             raw_content = response["choices"][0]["message"]["content"]
             print(response)
@@ -225,7 +221,7 @@ def search_pantry():
     food = request.args.get("food", None)
     limit = request.args.get("limit", 20)
     offset = request.args.get("offset", 0)
-    if not search:
+    if not food:
         message = utils.create_message([], None, 200)
         return message, message["status_code"]
     search = food.capitalize()
@@ -271,13 +267,14 @@ def crud_dish():
     if request.method == "POST":
         user_id = request.payload["user_id"]
         pairs = request.json
-        
+
         # Get latest pantry
         pantries = db.collection("users").document(user_id).collection("pantry").order_by("created_at", direction=firestore.Query.DESCENDING).get()
         if len(pantries) == 0:
             pantry = ["fish", "fish sauce"]
         else:
-            pantry = pantries[0].to_dict()
+            pantry_obj = pantries[0].to_dict()
+            pantry = pantry_obj["pantry"]
             print(pantry)
 
         answers = []
@@ -285,7 +282,7 @@ def crud_dish():
         for pair in pairs:
             answers.append(pair["answer"])
             questions.append(pair["question"])
-        
+
         # Create dishes
         dish = create_dishes(questions, answers, pantry)
 
@@ -434,7 +431,8 @@ def crud_calendar():
         meals = meal_ref.where("date", "==", meal_milliseconds).where("meal", "==", meal_type).get()
 
         if len(meals) > 0:
-            meal_id = meals[0].uid
+            print(meals[0].to_dict())
+            meal_id = meals[0].id
         else:
             meal_id = utils.generate_id()
 
