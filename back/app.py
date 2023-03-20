@@ -15,7 +15,7 @@ from datetime import datetime, date
 
 import utils
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='template', static_url_path='/frontend')
 
 CORS(app, resources={r"*": {"origins": "*"}})
 jwt = JWTManager(app=app)
