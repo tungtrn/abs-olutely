@@ -24,7 +24,6 @@ import DropDown from '../../components/DropDown';
 import PrimaryButton from '../../components/PrimaryButton';
 import theme from '../../theme/theme';
 import { handlePost } from '../APIRequest';
-import { Recipe, Steps } from './Question';
 
 const styles = {
 	content: {

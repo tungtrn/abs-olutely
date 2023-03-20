@@ -1,12 +1,4 @@
-import PropTypes from "prop-types";
-import {
-	Box,
-	Card,
-	CardContent,
-	LinearProgress,
-	Stack,
-	Typography,
-} from "@mui/material";
+import { Box, Card, CardContent, LinearProgress, Stack, Typography } from '@mui/material';
 
 type SpendingProgressProps = {
 	value: number;

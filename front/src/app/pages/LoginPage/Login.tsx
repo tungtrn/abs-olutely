@@ -1,19 +1,13 @@
-import { Divider, Grid, Hidden, TextField, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import {
-	getAdditionalUserInfo,
-	GoogleAuthProvider,
-	signInWithPopup,
-} from "firebase/auth";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import PrimaryButton from "../../components/PrimaryButton";
+import { Divider, Grid, Hidden, TextField, Typography } from '@mui/material';
+import { Box } from '@mui/system';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { auth } from "../../firebase-config";
-import { useAppDispatch } from "../../hooks/hooks";
-import { setUser } from "../../reducer/authSlice";
-import theme from "../../theme/theme";
-import { handlePost } from "../APIRequest";
+import PrimaryButton from '../../components/PrimaryButton';
+import { useAppDispatch } from '../../hooks/hooks';
+import { setUser } from '../../reducer/authSlice';
+import theme from '../../theme/theme';
+import { handlePost } from '../APIRequest';
 
 type SignInData = {
 	email: string;

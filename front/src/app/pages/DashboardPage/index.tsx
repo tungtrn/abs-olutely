@@ -1,28 +1,27 @@
-import { ChevronRight } from "@mui/icons-material";
-import { Box, Button, Card, CardHeader, Grid, Typography } from "@mui/material";
-import Dialog, { DialogProps } from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import { DateCalendar } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import dayjs, { Dayjs } from "dayjs";
-import { useState } from "react";
-import * as React from "react";
+import { ChevronRight } from '@mui/icons-material';
+import { Box, Button, Card, CardHeader, Grid, Typography } from '@mui/material';
+import Dialog, { DialogProps } from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import { DateCalendar } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import dayjs, { Dayjs } from 'dayjs';
+import { useState } from 'react';
+import * as React from 'react';
 
-import theme from "../../theme/theme";
-import { RecipeInformation } from "../RecipePage/Question";
-import { RecipeCard, RecipeSteps } from "../RecipePage/RecipeResult";
-import { CalsProgress } from "./Card/cal-goal-tracking";
-import { ComponentDistribution } from "./Card/component-dist";
-import { DailyCal } from "./Card/daily-cal";
-import { DailySpend } from "./Card/daily-spend";
-import { MonthlyCal } from "./Card/monthly-cal";
-import { ShoppingList } from "./Card/shopping-list";
-import { SpendProgress } from "./Card/spend-goal-tracking";
-import { MealProps, TodayMeal } from "./Card/TodayMeals";
-import { handleGet } from "../APIRequest";
+import theme from '../../theme/theme';
+import { handleGet } from '../APIRequest';
+import { RecipeCard, RecipeSteps } from '../RecipePage/RecipeResult';
+import { CalsProgress } from './Card/cal-goal-tracking';
+import { ComponentDistribution } from './Card/component-dist';
+import { DailyCal } from './Card/daily-cal';
+import { DailySpend } from './Card/daily-spend';
+import { MonthlyCal } from './Card/monthly-cal';
+import { ShoppingList } from './Card/shopping-list';
+import { SpendProgress } from './Card/spend-goal-tracking';
+import { MealProps, TodayMeal } from './Card/TodayMeals';
 
 export interface DayRecipeProps {
 	breakfast: MealProps;
@@ -97,7 +96,7 @@ const Page = () => {
 
 		if (response.status_code === 200) {
 			console.log(response.data.length);	
-			if (response.data.length == 0) {
+			if (response.data.length === 0) {
 				setSearchedMeal(null);
 				setEmptyData(true);
 				console.log(emptyData);

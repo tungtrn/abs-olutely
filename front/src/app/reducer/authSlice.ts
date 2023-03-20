@@ -1,8 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import firebase from 'firebase/app';
-import { auth } from '../firebase-config';
-
-import { User } from '../models/User';
+import { createSlice } from '@reduxjs/toolkit';
 
 interface AuthState {
     // user: User | null;

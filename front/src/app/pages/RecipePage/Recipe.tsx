@@ -1,22 +1,14 @@
-import {
-	Box,
-	Button,
-	Grid,
-	LinearProgress,
-	MenuItem,
-	SelectChangeEvent,
-	TextField,
-	Typography,
-} from "@mui/material";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import DropDown from "../../components/DropDown";
-import PrimaryButton from "../../components/PrimaryButton";
-import { CustomizedTextField } from "../../components/TextField";
-import theme from "../../theme/theme";
-import { handlePost } from "../APIRequest";
-import ReactLoading from "react-loading";
-import { RecipeQuestionAnswer, RecipeQuestions } from "./Question";
+import { Box, Grid, LinearProgress, MenuItem, SelectChangeEvent, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import ReactLoading from 'react-loading';
+import { useNavigate } from 'react-router-dom';
+
+import DropDown from '../../components/DropDown';
+import PrimaryButton from '../../components/PrimaryButton';
+import { CustomizedTextField } from '../../components/TextField';
+import theme from '../../theme/theme';
+import { handlePost } from '../APIRequest';
+import { RecipeQuestionAnswer, RecipeQuestions } from './Question';
 
 function Recipe() {
 	const questions = RecipeQuestions;

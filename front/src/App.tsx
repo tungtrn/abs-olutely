@@ -1,16 +1,11 @@
-import "./App.css";
+import './App.css';
 
-import React, { useEffect } from "react";
-import { RouterProvider } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { RouterProvider } from 'react-router-dom';
 
-import router from "./app/routes/routes";
-import { logout, setUser } from "./app/reducer/authSlice";
-import { useAppDispatch } from "./app/hooks/hooks";
-import { auth } from "./app/firebase-config";
-import { User } from "./app/models/User";
-import theme from "./app/theme/theme";
-import { RootState } from "./app/stores/store";
-import { connect, ConnectedProps } from "react-redux";
+import router from './app/routes/routes';
+import { RootState } from './app/stores/store';
 
 const mapStateToProps = (state: RootState) => ({
 	token: state.auth.token || null,

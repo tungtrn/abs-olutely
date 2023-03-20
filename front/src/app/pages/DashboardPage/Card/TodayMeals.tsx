@@ -1,19 +1,10 @@
-import {
-	Box,
-	Button,
-	Card,
-	CardHeader,
-	Divider,
-	Grid,
-	Typography,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
-import dayjs from "dayjs";
-import { useEffect, useState } from "react";
-import SimpleBar from "simplebar-react";
-import { DayRecipeProps } from "..";
-import theme from "../../../theme/theme";
-import { handleGet } from "../../APIRequest";
+import { Box, Button, Card, CardHeader, Divider, Grid, Typography } from '@mui/material';
+import dayjs from 'dayjs';
+import { useEffect, useState } from 'react';
+
+import { DayRecipeProps } from '..';
+import theme from '../../../theme/theme';
+import { handleGet } from '../../APIRequest';
 
 type TodayMealProps = {
 	onClick: () => void;

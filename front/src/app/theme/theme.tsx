@@ -1,6 +1,6 @@
-import { red } from '@mui/material/colors';
-import { createTheme } from '@mui/material/styles';
 import './font.css';
+
+import { createTheme } from '@mui/material/styles';
 
 export default createTheme({
   palette: {

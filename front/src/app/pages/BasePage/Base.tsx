@@ -1,12 +1,11 @@
-import { connect, ConnectedProps } from "react-redux";
-import { RootState } from "../../stores/store";
-import { Outlet, useLocation } from "react-router-dom";
-// import NavBar from "../../components/NavBar/NavBar";
-import { Grid } from "@mui/material";
-import theme from "../../theme/theme";
-import { useEffect, useState } from "react";
-import NavBar from "../DashboardPage/Layout/NavBar";
+import { Grid } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 
+import theme from '../../theme/theme';
+import NavBar from '../DashboardPage/Layout/NavBar';
+
+// import NavBar from "../../components/NavBar/NavBar";
 const Home = () => {
 	const navBarWidth = "100px";
 	// const pathname = usePathname();

@@ -1,24 +1,20 @@
-import PropTypes from "prop-types";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {
-	Box,
-	Button,
-	Card,
-	CardActions,
-	CardHeader,
-	Divider,
-	SvgIcon,
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableRow,
-	Typography,
-} from "@mui/material";
-import SimpleBar from "simplebar-react";
-import { styled } from "@mui/material/styles";
-import PrimaryButton from "../../../components/PrimaryButton";
-import theme from "../../../theme/theme";
+    Box,
+    Button,
+    Card,
+    CardActions,
+    CardHeader,
+    Divider,
+    SvgIcon,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import SimpleBar from 'simplebar-react';
 
 const Scrollbar = styled(SimpleBar)``;
 

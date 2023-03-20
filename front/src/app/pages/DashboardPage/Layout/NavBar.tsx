@@ -1,18 +1,17 @@
-import AppBar from "@mui/material/AppBar";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Container, Box } from "@mui/material";
-// import { imageResources } from "../../images/images";
-import TaskIcon from "@mui/icons-material/Task";
-import HomeIcon from "@mui/icons-material/Home";
-import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import HomeIcon from '@mui/icons-material/Home';
 import LocalDiningIcon from '@mui/icons-material/LocalDining';
-import theme from "../../../theme/theme";
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import { Box, Container } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import theme from '../../../theme/theme';
+
+// import { imageResources } from "../../images/images";
 function NavBar() {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const isInterviewPage = location.pathname === "/home/interview-session";
-	const backgroundColor = isInterviewPage ? "#A4AEA4" : "#303830";
 	return (
 		<AppBar
 			position="static"

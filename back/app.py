@@ -108,6 +108,7 @@ def authorize_decorator(func):
             message = utils.create_message(None, "missing authorization header", 400)
             return message, message["status_code"]
         header = request.headers.get("Authorization")
+        print(request.headers)
         payload = utils.process_authorization(header)
         print(payload)
         if not payload:
@@ -407,7 +408,6 @@ def crud_calendar():
         to_milliseconds = int(to_date_obj.timestamp()*1000)
 
         meals = meal_ref.where("date", ">=", from_milliseconds).where("date", "<=", to_milliseconds).stream()
-        print(meals)
         meals_dict = list()
 
         for meal in meals:
