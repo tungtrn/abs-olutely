@@ -16,7 +16,7 @@ export const handlePost = async (url: string, body: any, requireAuth: boolean = 
 
     try {
         // fetch backend
-        const response = await fetch("http://192.168.1.22:5000/" + url, {
+        const response = await fetch("https://api-absolutely.ciliater.com/" + url, {
           method: "POST",
           headers: headers,
           body: JSON.stringify(body),
@@ -48,7 +48,7 @@ export const handleGet = async (url: string, requireAuth: boolean = true) => {
 
     try {
         // fetch backend
-        const response = await fetch("http://192.168.1.22:5000/" + url, {
+        const response = await fetch("https://api-absolutely.ciliater.com/" + url, {
             method: "GET",
             headers: headers,
         });
