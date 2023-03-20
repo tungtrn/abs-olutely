@@ -8,6 +8,8 @@ class ConfigApp(object):
     # Application Config
     app_secret = os.getenv("APP_SECRET")
 
+    chatgpt_secret = os.getenv("CHATGPT_SECRET")
+
 
 class Config:
     # Error Message
