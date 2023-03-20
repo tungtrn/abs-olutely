@@ -5,12 +5,14 @@ import { auth } from '../firebase-config';
 import { User } from '../models/User';
 
 interface AuthState {
-    user: User | null;
+    // user: User | null;
     isLoggedIn: boolean;
+    token: string | null;
 }
 
 const initialState: AuthState = {
-    user: null,
+    // user: null,
+    token: null,
     isLoggedIn: true,
 };
 
@@ -19,11 +21,11 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action) => {
-            state.user = action.payload;
+            state.token = action.payload;
             state.isLoggedIn = true;
         },
         logout: (state) => {
-            state.user = null;
+            state.token = null;
             state.isLoggedIn = false;
         }
     },

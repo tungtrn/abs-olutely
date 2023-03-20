@@ -89,6 +89,8 @@ export const Recipe = [
     },
 ]
 
+export const ingredientType = typeof Recipe;
+
 export const Steps = [
     "Cook the chicken",
     "Cook the rice",
@@ -105,6 +107,6 @@ export type RecipeQuestionAnswer = {
 
 export type RecipeInformation = {
     step: string[];
-    ingredients: string[];
+    ingredients: typeof Recipe[];
     shoppingList: string[];
 }

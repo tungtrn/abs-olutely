@@ -52,16 +52,6 @@ export default function DashBoard() {
 		//convert date to string but only date
 		// console.log(date);
 		if (value) {
-			// console.log(value?.toString());
-			// const utcDate = new Date(value.toString());
-			// const month = utcDate.getUTCMonth() + 1;
-			// const day = utcDate.getUTCDate();
-			// const year = utcDate.getUTCFullYear();
-			// const formattedDate = `${month.toString().padStart(2, "0")}/${day
-			// 	.toString()
-			// 	.padStart(2, "0")}/${year}`;
-
-			// console.log(formattedDate); // Output: 03/25/2023
 			setDate(value);
 			console.log(value.format("MM/DD/YYYY"));
 			handleClickOpen();

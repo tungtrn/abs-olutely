@@ -1,15 +1,30 @@
 import {
-	Box,
-	Card,
-	CardContent,
-	CardMedia,
-	Divider,
-	Grid,
-	Typography,
-} from "@mui/material";
+    Box,
+    Button,
+    Card,
+    CardContent,
+    CardMedia,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Divider,
+    FormControl,
+    Grid,
+    MenuItem,
+    SelectChangeEvent,
+    TextField,
+    Typography,
+} from '@mui/material';
+import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-import theme from "../../theme/theme";
-import { Recipe, Steps } from "./Question";
+import DropDown from '../../components/DropDown';
+import PrimaryButton from '../../components/PrimaryButton';
+import theme from '../../theme/theme';
+import { handlePost } from '../APIRequest';
+import { Recipe, Steps } from './Question';
 
 const styles = {
 	content: {
@@ -24,8 +39,16 @@ const styles = {
 	},
 };
 
-export function RecipeCard() {
-	const image = require("./example_img.png");
+type IngredientType = {
+	name: string;
+	amount: string;
+	calories: number;
+}
+
+export function RecipeCard(recipe: any) {
+	const name = recipe.recipe.dish_name;
+	const imageUrl = recipe.recipe.image_url;
+	const ingredients : IngredientType[] = recipe.recipe.ingredients;
 
 	return (
 		<Card
@@ -38,7 +61,7 @@ export function RecipeCard() {
 				component="img"
 				height={300}
 				width={320}
-				image={image}
+				image={imageUrl}
 				sx={{ objectFit: "contain", borderRadius: "20px", marginTop: "10%" }}
 			/>
 			<CardContent
@@ -52,7 +75,7 @@ export function RecipeCard() {
 					sx={{ width: "100%", display: "flex", flexGrow: 1 }}
 				>
 					<Grid item xs={12}>
-						<Typography variant="h5">Caesar Salad</Typography>
+						<Typography variant="h5">{name}</Typography>
 					</Grid>
 					<Grid item xs={12}>
 						<Grid
@@ -132,7 +155,7 @@ export function RecipeCard() {
 								width: "100%",
 							}}
 						>
-							{Recipe.map((item) => {
+							{ingredients.map((item) => {
 								return (
 									<Box sx={{ marginTop: "1rem" }}>
 										<Box sx={{ display: "flex", flexDirection: "row" }}>
@@ -166,7 +189,10 @@ export function RecipeCard() {
 	);
 }
 
-export function RecipeSteps() {
+export function RecipeSteps(recipe: any) {
+	const steps : string[] = recipe.recipe.recipes;
+	const shoppingList : string[] = recipe.recipe.shopping_list;
+
 	return (
 		<Box
 			sx={{
@@ -182,12 +208,13 @@ export function RecipeSteps() {
 				backgroundColor: theme.palette.secondary.main,
 				flexDirection: "column",
 				paddingTop: "2rem",
+				overflow: "auto"
 			}}
 		>
 			<Typography variant="h2" sx={{ textAlign: "center", color: "black" }}>
 				How to cook
 			</Typography>
-			{Steps.map((item, index) => {
+			{steps.map((item, index) => {
 				return (
 					<Box>
 						<Typography
@@ -200,7 +227,7 @@ export function RecipeSteps() {
 								color: "black",
 							}}
 						>
-							{index + 1}. {item}
+							{item}
 						</Typography>
 					</Box>
 				);
@@ -229,25 +256,15 @@ export function RecipeSteps() {
 					marginRight: "auto",
 				}}
 			>
-				{Recipe.map((item) => {
+				{shoppingList.map((item) => {
 					return (
 						// Display name of the ingredient and the amount on same line
 						<Box sx={{ marginTop: "1rem" }}>
 							<Box sx={{ display: "flex", flexDirection: "row" }}>
 								<Box sx={{ width: "50%" }}>
 									<Typography variant="h4" sx={{ color: "black" }}>
-										{item.name}
-									</Typography>
-								</Box>
-								<Box
-									sx={{
-										width: "50%",
-										justifyContent: "flex-end",
-										display: "flex",
-									}}
-								>
-									<Typography variant="h5" sx={{ color: "black" }}>
-										{item.amount}
+										{/* {item.name} */}
+										{item}
 									</Typography>
 								</Box>
 							</Box>
@@ -259,15 +276,169 @@ export function RecipeSteps() {
 	);
 }
 
-function RecipeResult() {
+// props is date, and it is optional
+type RecipeProps = {
+	date?: string;
+};
+
+function RecipeResult(props: RecipeProps) {
+	const [open, setOpen] = useState(false);
+	const [mealToSave, setMealToSave] = useState("");
+	const [mealDate, setMealDate] = useState("");
+
+	const location = useLocation();
+	let recipe: any;
+
+	if (props.date) {
+		// make request
+		console.log("test")
+	} else {
+		recipe = location.state;
+	}
+
+	console.log(recipe);
+
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	const handleChange = (value: string) => {
+		setMealToSave(value);
+	};
+
+	const handleSave = async () => {
+		const response = await handlePost("api/v1/dish/calendar", {
+			date: mealDate,
+			meal: mealToSave,
+			dish: recipe
+		});
+
+		if (response.status_code === 200) {
+			console.log("Success");
+		} else {
+			console.log("Error");
+		}
+	}
+
+	const RecipeDialog = () => (
+		<Dialog open={open} onClose={handleClose} sx={{ borderRadius: "20px" }}>
+			<DialogTitle>
+				<Typography variant="h3">Save Meal</Typography>
+			</DialogTitle>
+			<DialogContent>
+				<DialogContentText>
+					<Typography variant="h5">
+						Select the day and meal you want to save this meal to.
+					</Typography>
+				</DialogContentText>
+				<FormControl sx={{ m: 1, minWidth: 120, mt: "2rem", width: "100%" }}>
+					<TextField
+						id="date"
+						// label="Day"
+						type="date"
+						value={mealDate}
+						onChange={(e) => setMealDate(e.target.value)}
+						// defaultValue="2021-05-24"
+						sx={{
+							borderRadius: "20px",
+							backgroundColor: "#F4E9CD",
+							"& .MuiOutlinedInput-root": {
+								borderRadius: "20px",
+								backgroundColor: "#F4E9CD",
+								border: "none",
+							},
+							"& .MuiOutlinedInput-input": {
+								padding: "1rem",
+								color: theme.palette.primary.main,
+								fontWeight: 800,
+							},
+							"& .MuiOutlinedInput-notchedOutline": {
+								border: "none",
+							},
+							// set color of placeholder text
+							"& .MuiInputBase-input::placeholder": {
+								color: theme.palette.primary.main,
+								opacity: 0.5,
+								fontWeight: 800,
+							},
+						}}
+						// InputLabelProps={{
+						// 	shrink: true,
+						// }}
+					/>
+				</FormControl>
+				<FormControl sx={{ m: 1, minWidth: 120, mt: "2rem", width: "100%" }}>
+					<DropDown
+						labelId="demo-simple-select-label"
+						id="demo-simple-select"
+						value={mealToSave}
+						label="Meal"
+						onChange={(event: SelectChangeEvent<unknown>) => {
+							handleChange(event.target.value as unknown as string);
+						}}
+					>
+						<MenuItem value={"breakfast"}>Breakfast</MenuItem>
+						<MenuItem value={"brunch"}>Brunch</MenuItem>
+						<MenuItem value={"lunch"}>Lunch</MenuItem>
+						<MenuItem value={"dinner"}>Dinner</MenuItem>
+					</DropDown>
+				</FormControl>
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={handleClose}>Cancel</Button>
+				<Button onClick={handleSave}>Save</Button>
+			</DialogActions>
+		</Dialog>
+	);
+
 	return (
 		<Grid container direction="row" sx={{ width: "100%" }}>
+			<p>{location.state.message}</p>
 			<Grid item xs={12} md={6} lg={6}>
-				<RecipeCard />
+				<RecipeCard recipe={recipe} />
 			</Grid>
 
 			<Grid item xs={12} md={6} lg={6}>
-				<RecipeSteps />
+				<RecipeSteps recipe={recipe} />
+			</Grid>
+			{/* Align 2 button in the center, 1 button to get another recipe, 1 button to save recipe that opens a dialog */}
+			<Grid item xs={12} md={12} lg={12}>
+				<Box
+					sx={{
+						display: "flex",
+						justifyContent: "center",
+						marginTop: "3rem",
+						marginBottom: "2rem",
+					}}
+				>
+					<PrimaryButton
+						variant="contained"
+						style={{
+							marginRight: "1rem",
+							padding: ".5rem",
+							paddingLeft: "1rem",
+							paddingRight: "1rem",
+						}}
+					>
+						<Typography variant="h5">Get Another Recipe</Typography>
+					</PrimaryButton>
+					<PrimaryButton
+						variant="contained"
+						style={{
+							padding: ".5rem",
+							paddingLeft: "1rem",
+							paddingRight: "1rem",
+						}}
+						onClick={handleClickOpen}
+					>
+						<Typography variant="h5">Save Recipe</Typography>
+					</PrimaryButton>
+					<RecipeDialog />
+				</Box>
 			</Grid>
 		</Grid>
 	);

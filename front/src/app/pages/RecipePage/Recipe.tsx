@@ -9,10 +9,12 @@ import {
 	Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import DropDown from "../../components/DropDown";
 import PrimaryButton from "../../components/PrimaryButton";
 import { CustomizedTextField } from "../../components/TextField";
 import theme from "../../theme/theme";
+import { handlePost } from "../APIRequest";
 import { RecipeQuestionAnswer, RecipeQuestions } from "./Question";
 
 function Recipe() {
@@ -20,15 +22,28 @@ function Recipe() {
 	const [questionNum, setQuestionNum] = useState(0);
 	const [progress, setProgress] = useState(0);
 	const [answer, setAnswer] = useState<RecipeQuestionAnswer[]>([]);
+	const navigate = useNavigate();
 
     const [errorMsg, setErrorMsg] = useState("");
 	
-	const handleClickNext = () => {
+	const handleClickNext = async () => {
         if (answer[questionNum] === undefined || answer[questionNum].answer === "") {
             setErrorMsg("Please answer the question");
             console.log("Please answer the question");
             return;
         }
+
+		if (questionNum === questions.length - 1) {
+			const response = await handlePost("api/v1/dish", answer, true);
+
+			if (response.status_code === 200) {
+				console.log(response.data);
+
+				navigate("/home/recipe-result", { state: response.data });
+			} else {
+				console.log(response);
+			}
+		}
 
 		setQuestionNum(questionNum + 1);
 		setProgress(progress + 100 / questions.length);

@@ -21,7 +21,7 @@ function DropDown(props: SelectProps) {
 					},
 				}}
 			>
-				Answer
+				{props.label ?? "Answer"}
 			</InputLabel>
 			<Select
 				variant="outlined"
