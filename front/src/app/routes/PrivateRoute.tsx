@@ -15,7 +15,7 @@ function PrivateRoute({ isLoggedIn, children }: PropsFromRedux & { children: Rea
     <React.Fragment>{children}</React.Fragment>
   ) : (
     <React.Fragment>
-      <Navigate to="/login" />
+      <Navigate to="/" />
     </React.Fragment>
   );
 }

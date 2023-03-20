@@ -15,6 +15,7 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { CustomizedTextField } from "../../components/TextField";
 import theme from "../../theme/theme";
 import { handlePost } from "../APIRequest";
+import ReactLoading from "react-loading";
 import { RecipeQuestionAnswer, RecipeQuestions } from "./Question";
 
 function Recipe() {
@@ -23,21 +24,28 @@ function Recipe() {
 	const [progress, setProgress] = useState(0);
 	const [answer, setAnswer] = useState<RecipeQuestionAnswer[]>([]);
 	const navigate = useNavigate();
+	const [loading, setLoading] = useState(false);
 
-    const [errorMsg, setErrorMsg] = useState("");
-	
+	const [errorMsg, setErrorMsg] = useState("");
+
 	const handleClickNext = async () => {
-        if (answer[questionNum] === undefined || answer[questionNum].answer === "") {
-            setErrorMsg("Please answer the question");
-            console.log("Please answer the question");
-            return;
-        }
+		if (
+			answer[questionNum] === undefined ||
+			answer[questionNum].answer === ""
+		) {
+			setErrorMsg("Please answer the question");
+			console.log("Please answer the question");
+			return;
+		}
 
 		if (questionNum === questions.length - 1) {
+			setLoading(true);
+			setProgress(100);
 			const response = await handlePost("api/v1/dish", answer, true);
 
 			if (response.status_code === 200) {
 				console.log(response.data);
+				setLoading(false);
 
 				navigate("/home/recipe-result", { state: response.data });
 			} else {
@@ -50,21 +58,21 @@ function Recipe() {
 	};
 
 	const handleAnswer = (curAnswer: string) => {
-        console.log("start handleAnswer", answer);
+		console.log("start handleAnswer", answer);
 
-        const newAnswer = [...answer];
+		const newAnswer = [...answer];
 
-        newAnswer[questionNum] = {
-            question: questions[questionNum].question,
-            answer: curAnswer,
-        };
+		newAnswer[questionNum] = {
+			question: questions[questionNum].question,
+			answer: curAnswer,
+		};
 
-        setAnswer(newAnswer);
+		setAnswer(newAnswer);
 	};
 
-    useEffect(() => {
-        console.log(answer);
-    }, [answer]);
+	useEffect(() => {
+		console.log(answer);
+	}, [answer]);
 
 	return (
 		<Box
@@ -121,55 +129,82 @@ function Recipe() {
 						{Math.round(progress)}% completed
 					</Typography>
 				</Grid>
-				<Grid item xs={12} md={12} lg={12} sx={{ maxWidth: "50%" }}>
-					<Typography variant="h2">
-						{questions[questionNum].question}
-					</Typography>
-				</Grid>
-				<Grid item xs={12} md={12} lg={12} sx={{ width: "50%" }}>
-					{questions[questionNum].type === "select" ? (
-						<DropDown
-							onChange={(event: SelectChangeEvent<unknown>) => {
-								handleAnswer(event.target.value as unknown as string);
+				{loading ? (
+					<Grid item xs={12} md={12} lg={12} sx={{ maxWidth: "80%" }}>
+						<div
+							style={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
 							}}
-                            value={answer[questionNum]?.answer || ""}
 						>
-							{questions[questionNum].options?.map((option) => (
-								<MenuItem value={option} key={option}>{option}</MenuItem>
-							))}
-						</DropDown>
-					) : (
-						<CustomizedTextField
-							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-								handleAnswer(event.target.value);
+							<ReactLoading
+								type={"bars"}
+								color={theme.palette.primary.main}
+								height={100}
+								width={80}
+							/>
+							<br />
+							<Typography variant="h4" sx={{ color: theme.palette.primary.main }}>
+								Please wait while we are generating your recipe
+							</Typography>
+						</div>
+					</Grid>
+				) : (
+					<>
+						<Grid item xs={12} md={12} lg={12} sx={{ maxWidth: "50%" }}>
+							<Typography variant="h2">
+								{questions[questionNum].question}
+							</Typography>
+						</Grid>
+						<Grid item xs={12} md={12} lg={12} sx={{ width: "50%" }}>
+							{questions[questionNum].type === "select" ? (
+								<DropDown
+									onChange={(event: SelectChangeEvent<unknown>) => {
+										handleAnswer(event.target.value as unknown as string);
+									}}
+									value={answer[questionNum]?.answer || ""}
+								>
+									{questions[questionNum].options?.map((option) => (
+										<MenuItem value={option} key={option}>
+											{option}
+										</MenuItem>
+									))}
+								</DropDown>
+							) : (
+								<CustomizedTextField
+									onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+										handleAnswer(event.target.value);
+									}}
+								/>
+							)}
+						</Grid>
+						<Grid
+							item
+							xs={12}
+							md={12}
+							lg={12}
+							sx={{
+								width: "50%",
+								display: "flex",
+								alignItems: "flex-end",
+								justifyContent: "flex-end",
+								marginBottom: "6rem",
+								marginTop: "-2rem",
+								flexDirection: "column",
 							}}
-						/>
-					)}
-				</Grid>
-				<Grid
-					item
-					xs={12}
-					md={12}
-					lg={12}
-					sx={{
-						width: "50%",
-						display: "flex",
-						alignItems: "flex-end",
-						justifyContent: "flex-end",
-						marginBottom: "6rem",
-						marginTop: "-2rem",
-                        flexDirection: "column",
-					}}
-				>
-                    {
-                        errorMsg !== "" && (
-                            <Typography variant="h5" sx={{color: "red"}}>{errorMsg}</Typography>
-                        )
-                    }
-					<PrimaryButton onClick={handleClickNext}>
-						<Typography variant="h3">Next</Typography>
-					</PrimaryButton>
-				</Grid>
+						>
+							{errorMsg !== "" && (
+								<Typography variant="h5" sx={{ color: "red" }}>
+									{errorMsg}
+								</Typography>
+							)}
+							<PrimaryButton onClick={handleClickNext}>
+								<Typography variant="h3">Next</Typography>
+							</PrimaryButton>
+						</Grid>
+					</>
+				)}
 			</Grid>
 		</Box>
 	);

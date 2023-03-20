@@ -1,7 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import Base from "../pages/BasePage/Base";
-import DashBoard from "../pages/DashboardPage2/Dashboard";
-import Home from "../pages/HomePage/Home";
 import Login from "../pages/LoginPage/Login";
 import Pantry from "../pages/PantryPage/Pantry";
 import Recipe from "../pages/RecipePage/Recipe";
@@ -13,10 +11,6 @@ import Page from "../pages/DashboardPage/index";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <PrivateRoute> <Home /> </PrivateRoute>
-    },
-    {
-        path: "/login",
         element: <Login />
     },
     {
@@ -25,7 +19,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "dashboard",
-                element: <DashBoard />
+                element: <Page />
             },
             {
                 path: "pantry",
@@ -39,10 +33,6 @@ const router = createBrowserRouter([
                 path: "recipe-result",
                 element: <RecipeResult />
             },
-            {
-                path: "page",
-                element: <Page />
-            }
         ]
     }
 ]);

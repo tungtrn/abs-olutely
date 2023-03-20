@@ -1,44 +1,34 @@
-import { ChevronRight } from '@mui/icons-material';
-import { Box, Button, Grid, Typography } from '@mui/material';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import { DateCalendar } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import dayjs, { Dayjs } from 'dayjs';
-import { useState } from 'react';
-import * as React from 'react';
+import { ChevronRight } from "@mui/icons-material";
+import { Box, Button, Card, CardHeader, Grid, Typography } from "@mui/material";
+import Dialog, { DialogProps } from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import { DateCalendar } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import dayjs, { Dayjs } from "dayjs";
+import { useState } from "react";
+import * as React from "react";
 
-import theme from '../../theme/theme';
-import { RecipeInformation } from '../RecipePage/Question';
-import { RecipeCard, RecipeSteps } from '../RecipePage/RecipeResult';
-import { CalsProgress } from './Card/cal-goal-tracking';
-import { ComponentDistribution } from './Card/component-dist';
-import { DailyCal } from './Card/daily-cal';
-import { DailySpend } from './Card/daily-spend';
-import { MonthlyCal } from './Card/monthly-cal';
-import { ShoppingList } from './Card/shopping-list';
-import { SpendProgress } from './Card/spend-goal-tracking';
-import { TodayMeal } from './Card/TodayMeals';
-import { handleGet } from '../APIRequest';
+import theme from "../../theme/theme";
+import { RecipeInformation } from "../RecipePage/Question";
+import { RecipeCard, RecipeSteps } from "../RecipePage/RecipeResult";
+import { CalsProgress } from "./Card/cal-goal-tracking";
+import { ComponentDistribution } from "./Card/component-dist";
+import { DailyCal } from "./Card/daily-cal";
+import { DailySpend } from "./Card/daily-spend";
+import { MonthlyCal } from "./Card/monthly-cal";
+import { ShoppingList } from "./Card/shopping-list";
+import { SpendProgress } from "./Card/spend-goal-tracking";
+import { MealProps, TodayMeal } from "./Card/TodayMeals";
+import { handleGet } from "../APIRequest";
 
-// import { Layout as DashboardLayout } from './Layout/layout';
-// import { DailyCal } from './Cards/daily-cal';
-// import { ShoppingList } from './Cards/shopping-list';
-// import { MonthlyCal } from './Cards/monthly-cal';
-// import { CalsProgress } from './Cards/cal-goal-tracking';
-// import { DailySpend } from './Cards/daily-spend';
-// import { SpendProgress } from './Cards/spend-goal-tracking';
-// import { ComponentDistribution } from './Cards/component-dist';
-// import { Calendar } from './Cards/calendar';
-
-interface DayRecipeProps {
-	breakfast: RecipeInformation[];
-	brunch: RecipeInformation[];
-	lunch: RecipeInformation[];
-	dinner: RecipeInformation[];
+export interface DayRecipeProps {
+	breakfast: MealProps;
+	brunch: MealProps;
+	lunch: MealProps;
+	dinner: MealProps;
 }
 
 const Page = () => {
@@ -46,21 +36,29 @@ const Page = () => {
 	const [fullWidth, setFullWidth] = useState(true);
 	const [maxWidth, setMaxWidth] = useState<DialogProps["maxWidth"]>("lg");
 
-  const todayDay = dayjs();
+	const todayDay = dayjs();
 	const [date, setDate] = useState<Dayjs | null>(todayDay);
 
+	const baseMeal = {
+		dish_name: "",
+		image_url: "",
+		ingredients: [],
+		recipes: [],
+		shopping_list: [],
+	};
+
 	const [mealOfDay, setMealOfDay] = useState<DayRecipeProps>({
-		breakfast: [],
-		brunch: [],
-		lunch: [],
-		dinner: [],
+		breakfast: baseMeal,
+		brunch: baseMeal,
+		lunch: baseMeal,
+		dinner: baseMeal,
 	});
 
 	const [searchedMeal, setSearchedMeal] = useState<DayRecipeProps>({
-		breakfast: [],
-		brunch: [],
-		lunch: [],
-		dinner: [],
+		breakfast: baseMeal,
+		brunch: baseMeal,
+		lunch: baseMeal,
+		dinner: baseMeal,
 	});
 
 	const [selectedMeal, setSelectedMeal] = useState<string>("");
@@ -75,33 +73,31 @@ const Page = () => {
 		//convert date to string but only date
 		// console.log(date);
 		if (value) {
-      console.log(value.format("YYYY-MM-DD"));
+			console.log(value.format("YYYY-MM-DD"));
 			setDate(value);
 			handleClickOpen(value);
 		}
 	};
 
-  const handleClickOpen = async (date?: Dayjs) => {
+	const handleClickOpen = async (date?: Dayjs) => {
 		setOpen(true);
-    console.log(date);
+		console.log(date);
 
-    const requestDate = date ? date : todayDay;
+		const requestDate = date ? date : todayDay;
 
-    const response = await handleGet(`api/v1/dish/calendar?from=${requestDate?.format("YYYY-MM-DD")}&to=${requestDate?.format("YYYY-MM-DD")}`, true);
+		const response = await handleGet(
+			`api/v1/dish/calendar?from=${requestDate?.format(
+				"YYYY-MM-DD",
+			)}&to=${requestDate?.format("YYYY-MM-DD")}`,
+			true,
+		);
 
-    console.log(response);
+		console.log(response);
 
-    if (response.status_code === 200) {
-      setSearchedMeal(response.data[0].dish);
-      console.log(response);
-    } else {
-      setSearchedMeal({
-        breakfast: [],
-        brunch: [],
-        lunch: [],
-        dinner: [],
-      });
-    }
+		if (response.status_code === 200) {
+			setSearchedMeal(response.data[0].dish);
+			console.log(response);
+		}
 	};
 
 	const recipeDialog = (
@@ -269,19 +265,31 @@ const Page = () => {
 						<TodayMeal onClick={handleClickOpen} />
 					</Grid>
 					<Grid item xs={12} sm={12} lg={3.5}>
-						<LocalizationProvider dateAdapter={AdapterDayjs}>
-							<DateCalendar
-								value={date}
-								onChange={handleChange}
-								sx={{
-									backgroundColor: "white",
-									borderRadius: "20px",
-									height: "100%",
-									paddingTop: "2rem",
-								}}
-							/>
-							{recipeDialog}
-						</LocalizationProvider>
+						<Card
+							sx={{
+								height: "93%",
+								paddingBottom: "2rem",
+							}}
+							style={{
+								backgroundColor: theme.palette.primary.main,
+								borderRadius: "20px",
+							}}
+						>
+							<CardHeader title="Calendar" />
+							<LocalizationProvider dateAdapter={AdapterDayjs}>
+								<DateCalendar
+									value={date}
+									onChange={handleChange}
+									sx={{
+										backgroundColor: "white",
+										borderRadius: "20px",
+										height: "90%",
+										// paddingTop: "2rem",
+									}}
+								/>
+								{recipeDialog}
+							</LocalizationProvider>
+						</Card>
 					</Grid>
 					<Grid item xs={12} sm={12} lg={5}>
 						<ShoppingList
